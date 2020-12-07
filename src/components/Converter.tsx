@@ -1,5 +1,4 @@
-import { DefaultTheme } from "@react-navigation/native";
-import React, { useEffect } from "react";
+import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import {
   ActivityIndicator,
@@ -12,7 +11,6 @@ import {
   TextInput,
   Title,
 } from "react-native-paper";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 import { MODAL_STYLES } from "../constants/ComponentStyles";
 import CurrencyHelper from "../helpers/CurrencyHelper";
 import TextHelper from "../helpers/TextHelper";
@@ -152,26 +150,13 @@ export default function Converter(props: ConverterProps) {
         onDismiss={toggleModal}
         contentContainerStyle={MODAL_STYLES}
       >
-        <View
-          style={{
-            width: Dimensions.get("window").height * 0.4,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <View style={styles.optionsContainer}>
           {options &&
             options.map((type, index) => {
               return (
                 <Menu.Item
-                  style={{
-                    width: "100%",
-                    alignItems: "center",
-                  }}
-                  titleStyle={{
-                    fontWeight: "bold",
-                    fontSize: 17,
-                    alignSelf: "center",
-                  }}
+                  style={styles.typeItem}
+                  titleStyle={styles.typeText}
                   key={index}
                   onPress={() => onItemPress(type)}
                   title={TextHelper.capitalize(type.name)}
@@ -199,6 +184,20 @@ const styles = StyleSheet.create({
   pricesRow: {
     justifyContent: "space-between",
     flexDirection: "row",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+  },
+  optionsContainer: {
+    width: Dimensions.get("window").height * 0.4,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  typeItem: {
+    width: "100%",
+    alignItems: "center",
+  },
+  typeText: {
+    fontWeight: "bold",
+    fontSize: 17,
+    alignSelf: "center",
   },
 });
