@@ -1,5 +1,6 @@
+import { DefaultTheme } from "@react-navigation/native";
 import React, { useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import {
   ActivityIndicator,
   Button,
@@ -9,7 +10,9 @@ import {
   Subheading,
   Surface,
   TextInput,
+  Title,
 } from "react-native-paper";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 import { MODAL_STYLES } from "../constants/ComponentStyles";
 import CurrencyHelper from "../helpers/CurrencyHelper";
 import TextHelper from "../helpers/TextHelper";
@@ -98,7 +101,7 @@ export default function Converter(props: ConverterProps) {
         <>
           <Surface style={styles.container}>
             <TextInput
-              style={styles.input}
+              style={[styles.input, { marginHorizontal: 50 }]}
               label="Dolar"
               keyboardType={"numeric"}
               value={currency}
@@ -126,11 +129,12 @@ export default function Converter(props: ConverterProps) {
                 underlineColor={"#000"}
               />
             </View>
-            <Divider style={{ marginVertical: 20 }} />
-            <View>
-              <Subheading>
+            <Divider style={{ marginTop: 30 }} />
+            <View style={{ paddingHorizontal: 15, marginBottom: 25 }}>
+              <Title style={{ marginVertical: 15 }}>
+                <Subheading>Tipo de cambio: </Subheading>
                 {selected && TextHelper.capitalize(selected.name)}
-              </Subheading>
+              </Title>
               <Button
                 mode="contained"
                 labelStyle={{ color: "#fff" }}
@@ -148,20 +152,33 @@ export default function Converter(props: ConverterProps) {
         onDismiss={toggleModal}
         contentContainerStyle={MODAL_STYLES}
       >
-        {options &&
-          options.map((type, index) => {
-            return (
-              <Menu.Item
-                contentStyle={{ width: "100%" }}
-                titleStyle={{ fontWeight: "bold", fontSize: 17 }}
-                style={{ flexGrow: 1 }}
-                key={index}
-                icon="cash"
-                onPress={() => onItemPress(type)}
-                title={TextHelper.capitalize(type.name)}
-              />
-            );
-          })}
+        <View
+          style={{
+            width: Dimensions.get("window").height * 0.4,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {options &&
+            options.map((type, index) => {
+              return (
+                <Menu.Item
+                  style={{
+                    width: "100%",
+                    alignItems: "center",
+                  }}
+                  titleStyle={{
+                    fontWeight: "bold",
+                    fontSize: 17,
+                    alignSelf: "center",
+                  }}
+                  key={index}
+                  onPress={() => onItemPress(type)}
+                  title={TextHelper.capitalize(type.name)}
+                />
+              );
+            })}
+        </View>
       </Modal>
     </>
   );
@@ -182,5 +199,6 @@ const styles = StyleSheet.create({
   pricesRow: {
     justifyContent: "space-between",
     flexDirection: "row",
+    flexWrap: "wrap"
   },
 });

@@ -4,6 +4,7 @@ import Body from "../components/Body";
 import Header from "../components/Header";
 import Axios from "axios";
 import AsyncStorage from "@react-native-community/async-storage";
+import { COLORS } from "../constants/Colors";
 
 export default function Home() {
   const [values, setValues] = React.useState<ValuesResponse>();
@@ -29,7 +30,7 @@ export default function Home() {
   }, []);
 
   return (
-    <View style={{ backgroundColor: "#edf7ff", flex: 1 }}>
+    <View style={{ backgroundColor: COLORS.light, flex: 1 }}>
       <Header title={"Cotizaciones"} />
       {values && <Body data={values} refresh={getValues} />}
     </View>

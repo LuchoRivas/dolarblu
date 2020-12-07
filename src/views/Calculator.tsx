@@ -4,6 +4,7 @@ import React from "react";
 import { View } from "react-native";
 import Converter from "../components/Converter";
 import Header from "../components/Header";
+import { COLORS } from "../constants/Colors";
 
 export default function Calculator() {
   const [values, setValues] = React.useState<ValuesResponse>();
@@ -37,7 +38,7 @@ export default function Calculator() {
   }, []);
 
   return (
-    <View style={{ backgroundColor: "#edf7ff", flex: 1 }}>
+    <View style={{ backgroundColor: COLORS.light, flex: 1 }}>
       <Header title={"Calculadora"} />
       {(values && types) && <Converter options={types} currencies={values} />}
     </View>

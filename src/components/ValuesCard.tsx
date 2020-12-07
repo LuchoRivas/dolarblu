@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { Card } from "react-native-paper";
+import { Card, Divider } from "react-native-paper";
 
 export default function ValuesCard(props: ValuesCardProps) {
   const { type, buy, sell, update } = props;
@@ -12,6 +12,7 @@ export default function ValuesCard(props: ValuesCardProps) {
           title={`Dólar ${type}`}
           subtitle={`Última actualización: ${update}`}
         />
+        <Divider />
         <Card.Content style={styles.body}>
           <View style={styles.content}>
             <Text style={styles.title}>Compra</Text>
@@ -33,6 +34,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   body: {
+    paddingVertical: 5,
     flexDirection: "row",
     justifyContent: "space-evenly",
     marginVertical: 5,
