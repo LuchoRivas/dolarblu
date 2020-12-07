@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import {
   ActivityIndicator,
@@ -11,15 +11,17 @@ import {
   TextInput,
 } from "react-native-paper";
 import { MODAL_STYLES } from "../constants/ComponentStyles";
+import CurrencyHelper from "../helpers/CurrencyHelper";
 import TextHelper from "../helpers/TextHelper";
 
 export default function Converter(props: ConverterProps) {
   const { options, currencies } = props;
 
   //#region states
+
   const [visible, setVisible] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
-  const [pesos, setPesos] = React.useState("1");
+  const [currency, setCurrency] = React.useState("1");
   const [buyPrice, setBuyPrice] = React.useState("");
   const [sellPrice, setSellPrice] = React.useState("");
   const [selected, setSelected] = React.useState<TypesResponse>({
@@ -28,40 +30,61 @@ export default function Converter(props: ConverterProps) {
       $oid: "",
     },
   });
+
   //#endregion states
 
   //#region hooks
+
   React.useEffect(() => {
-    try {
-      const default_option =
-        options && options.find((option) => option.name === "blue");
-      setSelected(default_option!);
-      if (currencies) {
-        setter(selected);
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error(error);
+    const default_option = options[0];
+    setSelected(default_option);
+    if (currencies) {
+      setter(default_option);
+      setLoading(false);
     }
-  }, [options, currencies]);
+  }, []);
+
+  React.useEffect(() => {
+    if (currency) calc(currency);
+  }, [currency]);
+
   //#endregion hooks
 
-  const setter = (typeOfValue: TypesResponse) => {
-    // array of values
+  const finder = (typeOfValue: TypesResponse) => {
+    // db response to array of values
     const dataValues = Object.values(currencies);
     const match_value = dataValues.find((value) => {
       return value._id.$oid === typeOfValue._id.$oid;
     });
-    setBuyPrice(match_value!.buy);
-    setSellPrice(match_value!.sell);
+    return match_value;
   };
-  
+
+  const setter = (typeOfValue: TypesResponse) => {
+    const values_to_set = finder(typeOfValue);
+    if (values_to_set !== undefined) {
+      setBuyPrice(values_to_set.buy);
+      setSellPrice(values_to_set.sell);
+    }
+  };
+
+  const calc = (currency: string) => {
+    const value_selected = finder(selected);
+    if (value_selected !== undefined) {
+      const buy = CurrencyHelper.toDouble(value_selected.buy);
+      const sell = CurrencyHelper.toDouble(value_selected.sell);
+      const value = CurrencyHelper.toDouble(currency);
+      setBuyPrice(`$ ${(buy * value).toFixed(2).replace(".", ",") + ""}`);
+      setSellPrice(`$ ${(sell * value).toFixed(2).replace(".", ",") + ""}`);
+    }
+  };
+
   const toggleModal = () => {
     setVisible(!visible);
   };
 
   const onItemPress = (type: TypesResponse) => {
     setter(type);
+    setSelected(type);
     toggleModal();
   };
 
@@ -76,10 +99,10 @@ export default function Converter(props: ConverterProps) {
           <Surface style={styles.container}>
             <TextInput
               style={styles.input}
-              label="Peso"
+              label="Dolar"
               keyboardType={"numeric"}
-              value={pesos}
-              onChangeText={(value) => setPesos(value)}
+              value={currency}
+              onChangeText={(value) => setCurrency(value)}
               selectionColor={"#000"}
               underlineColor={"#000"}
             />

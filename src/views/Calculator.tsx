@@ -6,14 +6,13 @@ import Converter from "../components/Converter";
 import Header from "../components/Header";
 
 export default function Calculator() {
-
   const [values, setValues] = React.useState<ValuesResponse>();
   const [types, setTypes] = React.useState<TypesResponse[]>();
 
   //#region services
   const getFromStorage = async () => {
-    const store = await AsyncStorage.getItem("VALUES");
-    const data = JSON.parse(store!);
+    const store = await AsyncStorage.getItem("VALUES") || '';
+    const data = JSON.parse(store);
     setValues(data);
   };
 
@@ -37,16 +36,10 @@ export default function Calculator() {
     fetch();
   }, []);
 
-  React.useEffect(() => {
-    // if (values) setDollar(values.blue.buy);
-  }, [values, types]);
-
-
-
   return (
     <View style={{ backgroundColor: "#edf7ff", flex: 1 }}>
       <Header title={"Calculadora"} />
-      <Converter options={types!} currencies={values!} />
+      {(values && types) && <Converter options={types} currencies={values} />}
     </View>
   );
 }
