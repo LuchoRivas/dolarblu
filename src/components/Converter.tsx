@@ -4,13 +4,14 @@ import {
   ActivityIndicator,
   Button,
   Divider,
-  Menu,
   Modal,
+  RadioButton,
   Subheading,
   Surface,
   TextInput,
   Title,
 } from "react-native-paper";
+import { COLORS } from "../constants/Colors";
 import { MODAL_STYLES } from "../constants/ComponentStyles";
 import CurrencyHelper from "../helpers/CurrencyHelper";
 import TextHelper from "../helpers/TextHelper";
@@ -92,7 +93,7 @@ export default function Converter(props: ConverterProps) {
   return (
     <>
       {loading ? (
-        <View style={{ flex: 1, justifyContent: "center" }}>
+        <View style={styles.spinnerContainer}>
           <ActivityIndicator animating={loading} size="large" />
         </View>
       ) : (
@@ -128,7 +129,7 @@ export default function Converter(props: ConverterProps) {
               />
             </View>
             <Divider style={{ marginTop: 30 }} />
-            <View style={{ paddingHorizontal: 15, marginBottom: 25 }}>
+            <View style={styles.footer}>
               <Title style={{ marginVertical: 15 }}>
                 <Subheading>Tipo de cambio: </Subheading>
                 {selected && TextHelper.capitalize(selected.name)}
@@ -150,26 +151,33 @@ export default function Converter(props: ConverterProps) {
         onDismiss={toggleModal}
         contentContainerStyle={MODAL_STYLES}
       >
-        <View style={styles.optionsContainer}>
+        <RadioButton.Group
+          onValueChange={(value) => onItemPress(value)}
+          value={selected}
+        >
           {options &&
             options.map((type, index) => {
               return (
-                <Menu.Item
-                  style={styles.typeItem}
-                  titleStyle={styles.typeText}
+                <RadioButton.Item
+                  style={{ width: Dimensions.get("window").width * 0.7 }}
                   key={index}
-                  onPress={() => onItemPress(type)}
-                  title={TextHelper.capitalize(type.name)}
+                  label={TextHelper.capitalize(type.name)}
+                  value={type}
+                  color={COLORS.primary}
                 />
               );
             })}
-        </View>
+        </RadioButton.Group>
       </Modal>
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  spinnerContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
   container: {
     marginTop: 30,
     marginHorizontal: 30,
@@ -186,11 +194,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
   },
-  optionsContainer: {
-    width: Dimensions.get("window").height * 0.4,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   typeItem: {
     width: "100%",
     alignItems: "center",
@@ -199,5 +202,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 17,
     alignSelf: "center",
+  },
+  footer: {
+    paddingHorizontal: 15,
+    marginBottom: 25,
   },
 });
