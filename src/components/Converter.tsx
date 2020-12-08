@@ -48,7 +48,7 @@ export default function Converter(props: ConverterProps) {
 
   React.useEffect(() => {
     if (currency) calc(currency);
-  }, [currency]);
+  }, [currency, selected]);
 
   //#endregion hooks
 
@@ -84,9 +84,9 @@ export default function Converter(props: ConverterProps) {
     setVisible(!visible);
   };
 
-  const onItemPress = (type: TypesResponse) => {
-    setter(type);
+  const onChangeType = (type: TypesResponse) => {
     setSelected(type);
+    setter(type);
     toggleModal();
   };
 
@@ -152,7 +152,7 @@ export default function Converter(props: ConverterProps) {
         contentContainerStyle={MODAL_STYLES}
       >
         <RadioButton.Group
-          onValueChange={(value) => onItemPress(value)}
+          onValueChange={(value) => onChangeType(value)}
           value={selected}
         >
           {options &&

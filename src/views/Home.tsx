@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { RefreshControl, ScrollView, View } from "react-native";
 import Body from "../components/Body";
 import Header from "../components/Header";
 import Axios from "axios";
@@ -9,6 +9,7 @@ import config from "../constants/Enviorment";
 
 export default function Home() {
   const [values, setValues] = React.useState<ValuesResponse>();
+  const [refreshing, setRefreshing] = React.useState(false);
 
   const getValues = async () => {
     try {
@@ -17,8 +18,7 @@ export default function Home() {
       if (data) {
         AsyncStorage.setItem("VALUES", JSON.stringify(data));
         setValues(data);
-      }
-      else {
+      } else {
         console.error("Error !");
       }
     } catch (error) {
@@ -30,10 +30,27 @@ export default function Home() {
     getValues();
   }, []);
 
+  React.useEffect(() => {
+    if (refreshing) refresh();
+  }, [refreshing]);
+
+  const refresh = async () => {
+    await getValues();
+    toggleRefresh();
+  };
+
+  const toggleRefresh = () => {
+    setRefreshing(!refreshing);
+  };
   return (
-    <View style={{ backgroundColor: COLORS.light, flex: 1 }}>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={toggleRefresh} />
+      }
+      style={{ backgroundColor: COLORS.light, flex: 1 }}
+    >
       <Header title={"Cotizaciones"} />
-      {values && <Body data={values} refresh={getValues} />}
-    </View>
+      {values && <Body data={values} />}
+    </ScrollView>
   );
 }

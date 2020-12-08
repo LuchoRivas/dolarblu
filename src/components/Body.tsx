@@ -1,31 +1,13 @@
 import React from "react";
-import { ScrollView, RefreshControl } from "react-native";
 import DateHelper from "../helpers/DateHelper";
 import ValuesCard from "./ValuesCard";
 
 export default function Body(props: HomeBody) {
   // Props
-  const { data, refresh } = props;
-
-  // State(s)
-  const [refreshing, setRefreshing] = React.useState(false);
-
-  // Service(s)
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(!refreshing);
-    const fetch = async () => {
-      await refresh();
-      setRefreshing(false);
-    };
-    fetch();
-  }, []);
+  const { data } = props;
 
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
+    <>
       {data && (
         <>
           <ValuesCard
@@ -54,6 +36,6 @@ export default function Body(props: HomeBody) {
           />
         </>
       )}
-    </ScrollView>
+    </>
   );
 }

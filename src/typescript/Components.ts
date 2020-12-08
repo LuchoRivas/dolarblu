@@ -1,7 +1,6 @@
 //#region Home
 type HomeBody = {
   data: ValuesResponse;
-  refresh: () => Promise<void>;
 };
 
 type HeaderProps = {
