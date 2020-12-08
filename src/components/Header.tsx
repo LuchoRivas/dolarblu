@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Appbar } from "react-native-paper";
+import { COLORS } from "../constants/Colors";
 
 export default function Header(props: HeaderProps) {
   const { title } = props;
@@ -15,7 +16,7 @@ export default function Header(props: HeaderProps) {
 const styles = StyleSheet.create({
   header: {
     paddingVertical: 20,
-    backgroundColor: "#3271a8",
+    backgroundColor: COLORS.primary,
     flexGrow: 1,
   },
   headerContent: {

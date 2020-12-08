@@ -5,13 +5,14 @@ import Header from "../components/Header";
 import Axios from "axios";
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../constants/Colors";
+import config from "../constants/Enviorment";
 
 export default function Home() {
   const [values, setValues] = React.useState<ValuesResponse>();
 
   const getValues = async () => {
     try {
-      const url = "http://192.168.0.33:5000/values";
+      const url = `${config.API_URL}/values`;
       const { data } = await Axios.get<ValuesResponse>(url);
       if (data) {
         AsyncStorage.setItem("VALUES", JSON.stringify(data));

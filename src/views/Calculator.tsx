@@ -5,6 +5,7 @@ import { View } from "react-native";
 import Converter from "../components/Converter";
 import Header from "../components/Header";
 import { COLORS } from "../constants/Colors";
+import config from "../constants/Enviorment";
 
 export default function Calculator() {
   const [values, setValues] = React.useState<ValuesResponse>();
@@ -19,7 +20,7 @@ export default function Calculator() {
 
   const getTypes = async () => {
     try {
-      const url = "http://192.168.0.33:5000/types";
+      const url = `${config.API_URL}/types`;
       const { data } = await Axios.get<TypesResponse[]>(url);
       setTypes(data);
     } catch (error) {
