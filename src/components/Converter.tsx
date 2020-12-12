@@ -4,16 +4,13 @@ import {
   ActivityIndicator,
   Button,
   Divider,
-  Modal,
-  RadioButton,
   Subheading,
   Surface,
   TextInput,
   Title,
 } from "react-native-paper";
-import { COLORS } from "../constants/Colors";
-import { MODAL_STYLES } from "../constants/ComponentStyles";
 import TextHelper from "../helpers/TextHelper";
+import TypesModal from "./TypesModal";
 
 export default function Converter(props: ConverterProps) {
   const { options, currencies } = props;
@@ -69,18 +66,14 @@ export default function Converter(props: ConverterProps) {
     }
   };
 
-  React.useEffect(() => {
-    console.log(buyPrice, typeof buyPrice, isNaN(buyPrice));
-  }, [buyPrice]);
-
   const calc = (currency: number) => {
     const value_selected = finder(selected);
     if (value_selected !== undefined) {
       const buy = value_selected.buy;
       const sell = value_selected.sell;
       const value = currency || 1;
-      setBuyPrice((buy * value));
-      setSellPrice((sell * value));
+      setBuyPrice(buy * value);
+      setSellPrice(sell * value);
     }
   };
 
@@ -118,7 +111,7 @@ export default function Converter(props: ConverterProps) {
               underlineColor={"#000"}
             />
             <View style={styles.pricesRow}>
-              {(isNaN(buyPrice) === false) && (
+              {isNaN(buyPrice) === false && (
                 <TextInput
                   style={styles.input}
                   disabled
@@ -156,30 +149,13 @@ export default function Converter(props: ConverterProps) {
           </Surface>
         </>
       )}
-
-      <Modal
+      <TypesModal
         visible={visible}
-        onDismiss={toggleModal}
-        contentContainerStyle={MODAL_STYLES}
-      >
-        <RadioButton.Group
-          onValueChange={(value) => onChangeType(value)}
-          value={selected}
-        >
-          {options &&
-            options.map((type, index) => {
-              return (
-                <RadioButton.Item
-                  style={{ width: Dimensions.get("window").width * 0.7 }}
-                  key={index}
-                  label={TextHelper.capitalize(type.name)}
-                  value={type}
-                  color={COLORS.primary}
-                />
-              );
-            })}
-        </RadioButton.Group>
-      </Modal>
+        toggleModal={toggleModal}
+        selected={selected}
+        options={options}
+        onChangeType={onChangeType}
+      />
     </>
   );
 }
@@ -201,11 +177,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   pricesRow: {
-    // justifyContent: "center",
     flexDirection: "row",
     flexWrap: "wrap",
-    // alignContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   typeItem: {
     width: "100%",

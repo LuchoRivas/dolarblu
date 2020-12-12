@@ -18,7 +18,17 @@ type ValuesCardProps = {
 
 //#region Converter
 type ConverterProps = {
-  options: TypesResponse[]
-  currencies: ValuesResponse
-}
+  options: TypesResponse[];
+  currencies: ValuesResponse;
+};
 //#endregion Converter
+
+//#region TypesModal
+type TypesModalProps = {
+  visible: boolean;
+  toggleModal: () => void;
+  selected: TypesResponse;
+  options: TypesResponse[];
+  onChangeType: (type: TypesResponse) => void;
+};
+//#region TypesModal
