@@ -13,7 +13,6 @@ import {
 } from "react-native-paper";
 import { COLORS } from "../constants/Colors";
 import { MODAL_STYLES } from "../constants/ComponentStyles";
-import CurrencyHelper from "../helpers/CurrencyHelper";
 import TextHelper from "../helpers/TextHelper";
 
 export default function Converter(props: ConverterProps) {
@@ -23,9 +22,10 @@ export default function Converter(props: ConverterProps) {
 
   const [visible, setVisible] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
-  const [currency, setCurrency] = React.useState("1");
-  const [buyPrice, setBuyPrice] = React.useState("");
-  const [sellPrice, setSellPrice] = React.useState("");
+  const [currency, setCurrency] = React.useState(1);
+  const [currencyInput, setCurrencyInput] = React.useState("1");
+  const [buyPrice, setBuyPrice] = React.useState(0);
+  const [sellPrice, setSellPrice] = React.useState(0);
   const [selected, setSelected] = React.useState<TypesResponse>({
     name: "",
     _id: {
@@ -69,14 +69,18 @@ export default function Converter(props: ConverterProps) {
     }
   };
 
-  const calc = (currency: string) => {
+  React.useEffect(() => {
+    console.log(buyPrice, typeof buyPrice, isNaN(buyPrice));
+  }, [buyPrice]);
+
+  const calc = (currency: number) => {
     const value_selected = finder(selected);
     if (value_selected !== undefined) {
-      const buy = CurrencyHelper.toDouble(value_selected.buy);
-      const sell = CurrencyHelper.toDouble(value_selected.sell);
-      const value = CurrencyHelper.toDouble(currency);
-      setBuyPrice(`$ ${(buy * value).toFixed(2).replace(".", ",") + ""}`);
-      setSellPrice(`$ ${(sell * value).toFixed(2).replace(".", ",") + ""}`);
+      const buy = value_selected.buy;
+      const sell = value_selected.sell;
+      const value = currency || 1;
+      setBuyPrice((buy * value));
+      setSellPrice((sell * value));
     }
   };
 
@@ -103,30 +107,37 @@ export default function Converter(props: ConverterProps) {
               style={[styles.input, { marginHorizontal: 50 }]}
               label="Dolar"
               keyboardType={"numeric"}
-              value={currency}
-              onChangeText={(value) => setCurrency(value)}
+              value={currencyInput}
+              onChangeText={(value) => {
+                setCurrencyInput(value);
+                setCurrency(
+                  Number(value.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, ""))
+                );
+              }}
               selectionColor={"#000"}
               underlineColor={"#000"}
             />
             <View style={styles.pricesRow}>
-              <TextInput
-                style={styles.input}
-                disabled
-                label="Compra"
-                keyboardType={"numeric"}
-                value={buyPrice}
-                selectionColor={"#000"}
-                underlineColor={"#000"}
-              />
-              <TextInput
-                style={styles.input}
-                disabled
-                label="Venta"
-                keyboardType={"numeric"}
-                value={sellPrice}
-                selectionColor={"#000"}
-                underlineColor={"#000"}
-              />
+              {(isNaN(buyPrice) === false) && (
+                <TextInput
+                  style={styles.input}
+                  disabled
+                  label="Compra"
+                  value={`$ ${buyPrice.toFixed(2).toString()}`}
+                  selectionColor={"#000"}
+                  underlineColor={"#000"}
+                />
+              )}
+              {sellPrice && (
+                <TextInput
+                  style={styles.input}
+                  disabled
+                  label="Venta"
+                  value={`$ ${sellPrice.toFixed(2).toString()}`}
+                  selectionColor={"#000"}
+                  underlineColor={"#000"}
+                />
+              )}
             </View>
             <Divider style={{ marginTop: 30 }} />
             <View style={styles.footer}>
@@ -190,9 +201,11 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   pricesRow: {
-    justifyContent: "space-between",
+    // justifyContent: "center",
     flexDirection: "row",
     flexWrap: "wrap",
+    // alignContent: "center",
+    alignItems: "center"
   },
   typeItem: {
     width: "100%",

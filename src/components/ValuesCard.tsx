@@ -17,12 +17,12 @@ export default function ValuesCard(props: ValuesCardProps) {
           {buy && (
             <View style={styles.content}>
               <Text style={styles.title}>Compra</Text>
-              <Text style={styles.value}>{buy}</Text>
+              <Text style={styles.value}>$ {buy.toFixed(2)}</Text>
             </View>
           )}
           <View style={styles.content}>
             <Text style={styles.title}>Venta</Text>
-            <Text style={styles.value}>{sell}</Text>
+            <Text style={styles.value}>$ {sell && sell.toFixed(2)}</Text>
           </View>
         </Card.Content>
       </Card>

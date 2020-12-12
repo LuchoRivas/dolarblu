@@ -9,8 +9,8 @@ type HeaderProps = {
 
 type ValuesCardProps = {
   type: string;
-  buy?: string;
-  sell: string;
+  buy?: number;
+  sell?: number;
   update: string;
 };
 
