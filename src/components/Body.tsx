@@ -5,7 +5,6 @@ import ValuesCard from "./ValuesCard";
 export default function Body(props: HomeBody) {
   // Props
   const { data } = props;
-
   return (
     <>
       {data && (
@@ -32,6 +31,11 @@ export default function Body(props: HomeBody) {
             type={"contado con liqui"}
             buy={data.liqui.buy}
             sell={data.liqui.sell}
+            update={DateHelper.toString(data.liqui.date.$date)}
+          />
+          <ValuesCard
+            type={"Solidario"}
+            sell={data.solidario.sell}
             update={DateHelper.toString(data.liqui.date.$date)}
           />
         </>

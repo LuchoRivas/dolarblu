@@ -43,6 +43,16 @@ type ValuesResponse = {
     sell: string;
     name: string;
   };
+  solidario: {
+    _id: {
+      $oid: string;
+    };
+    date: {
+      $date: Date;
+    };
+    sell: string;
+    name: string;
+  };
 };
 
 type TypesResponse = {

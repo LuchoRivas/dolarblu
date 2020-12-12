@@ -14,10 +14,12 @@ export default function ValuesCard(props: ValuesCardProps) {
         />
         <Divider />
         <Card.Content style={styles.body}>
-          <View style={styles.content}>
-            <Text style={styles.title}>Compra</Text>
-            <Text style={styles.value}>{buy}</Text>
-          </View>
+          {buy && (
+            <View style={styles.content}>
+              <Text style={styles.title}>Compra</Text>
+              <Text style={styles.value}>{buy}</Text>
+            </View>
+          )}
           <View style={styles.content}>
             <Text style={styles.title}>Venta</Text>
             <Text style={styles.value}>{sell}</Text>

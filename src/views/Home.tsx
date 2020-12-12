@@ -27,7 +27,10 @@ export default function Home() {
   };
 
   React.useEffect(() => {
-    getValues();
+    const fetch = async () => {
+      await getValues();
+    };
+    fetch();
   }, []);
 
   React.useEffect(() => {
@@ -43,14 +46,16 @@ export default function Home() {
     setRefreshing(!refreshing);
   };
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={toggleRefresh} />
-      }
-      style={{ backgroundColor: COLORS.light, flex: 1 }}
-    >
+    <>
       <Header title={"Cotizaciones"} />
-      {values && <Body data={values} />}
-    </ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={toggleRefresh} />
+        }
+        style={{ backgroundColor: COLORS.light, flex: 1 }}
+      >
+        {values && <Body data={values} />}
+      </ScrollView>
+    </>
   );
 }
