@@ -29,6 +29,6 @@ type TypesModalProps = {
   toggleModal: () => void;
   selected: TypesResponse;
   options: TypesResponse[];
-  onChangeType: (type: TypesResponse) => void;
+  onChangeType: (typeId: string) => void;
 };
 //#region TypesModal

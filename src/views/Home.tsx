@@ -16,7 +16,7 @@ export default function Home() {
       const url = `${config.API_URL}/values`;
       const { data } = await Axios.get<ValuesResponse>(url);
       if (data) {
-        AsyncStorage.setItem("VALUES", JSON.stringify(data));
+        await AsyncStorage.setItem("VALUES", JSON.stringify(data));
         setValues(data);
       } else {
         console.error("Error !");

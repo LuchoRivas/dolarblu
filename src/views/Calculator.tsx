@@ -13,9 +13,13 @@ export default function Calculator() {
 
   //#region services
   const getFromStorage = async () => {
-    const store = await AsyncStorage.getItem("VALUES") || '';
-    const data = JSON.parse(store);
-    setValues(data);
+    try {
+      const store = (await AsyncStorage.getItem("VALUES")) || "";
+      const data = JSON.parse(store);
+      setValues(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const getTypes = async () => {
@@ -41,7 +45,7 @@ export default function Calculator() {
   return (
     <View style={{ backgroundColor: COLORS.light, flex: 1 }}>
       <Header title={"Calculadora"} />
-      {(values && types) && <Converter options={types} currencies={values} />}
+      {values && types && <Converter options={types} currencies={values} />}
     </View>
   );
 }

@@ -81,9 +81,12 @@ export default function Converter(props: ConverterProps) {
     setVisible(!visible);
   };
 
-  const onChangeType = (type: TypesResponse) => {
-    setSelected(type);
-    setter(type);
+  const onChangeType = (typeId: string) => {
+    const value_type_selected = options.find((t) => t._id.$oid === typeId);
+    if (value_type_selected?._id.$oid === selected._id.$oid)
+      return toggleModal();
+    setSelected(value_type_selected || options[0]);
+    setter(value_type_selected || options[0]);
     toggleModal();
   };
 

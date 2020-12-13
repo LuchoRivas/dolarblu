@@ -17,7 +17,7 @@ export default function TypesModal(props: TypesModalProps) {
       >
         <RadioButton.Group
           onValueChange={(value) => onChangeType(value)}
-          value={selected}
+          value={selected._id.$oid}
         >
           {options &&
             options.map((type, index) => {
@@ -26,7 +26,7 @@ export default function TypesModal(props: TypesModalProps) {
                   style={{ width: Dimensions.get("window").width * 0.7 }}
                   key={index}
                   label={TextHelper.capitalize(type.name)}
-                  value={type}
+                  value={type._id.$oid}
                   color={COLORS.primary}
                 />
               );
