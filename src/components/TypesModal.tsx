@@ -1,6 +1,6 @@
 import React from "react";
 import { Dimensions } from "react-native";
-import { Modal, RadioButton } from "react-native-paper";
+import { Modal, RadioButton, Portal } from "react-native-paper";
 import { COLORS } from "../constants/Colors";
 import { MODAL_STYLES } from "../constants/ComponentStyles";
 import TextHelper from "../helpers/TextHelper";
@@ -9,7 +9,7 @@ export default function TypesModal(props: TypesModalProps) {
   // Props
   const { visible, toggleModal, selected, options, onChangeType } = props;
   return (
-    <>
+    <Portal>
       <Modal
         visible={visible}
         onDismiss={toggleModal}
@@ -33,6 +33,6 @@ export default function TypesModal(props: TypesModalProps) {
             })}
         </RadioButton.Group>
       </Modal>
-    </>
+    </Portal>
   );
 }
