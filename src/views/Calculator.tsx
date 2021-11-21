@@ -2,14 +2,15 @@ import AsyncStorage from "@react-native-community/async-storage";
 import Axios from "axios";
 import React from "react";
 import { View } from "react-native";
+import { useTheme } from "react-native-paper";
 import Converter from "../components/Converter";
 import Header from "../components/Header";
-import { COLORS } from "../constants/Colors";
 import config from "../constants/Enviorment";
 
 export default function Calculator() {
   const [values, setValues] = React.useState<ValuesResponse>();
   const [types, setTypes] = React.useState<TypesResponse[]>();
+  const { colors } = useTheme()
 
   //#region services
   const getFromStorage = async () => {
@@ -43,7 +44,7 @@ export default function Calculator() {
   }, []);
 
   return (
-    <View style={{ backgroundColor: COLORS.light, flex: 1 }}>
+    <View style={{ backgroundColor: colors.light, flex: 1 }}>
       <Header title={"Calculadora"} />
       {values && types && <Converter options={types} currencies={values} />}
     </View>

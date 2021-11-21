@@ -16,3 +16,4 @@ web-build/
 
 #VS Code
 .vscode/*
+.prettierrc
