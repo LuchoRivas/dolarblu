@@ -9,16 +9,18 @@ import { Theme } from "react-native-paper/lib/typescript/types"
 const Tab = createBottomTabNavigator()
 
 
-// Quiza modificar el type global?
-export type AppTheme = Theme & {
-	roundness: number
-	colors: {
-		secondary: string
-		light: string
+declare global {
+	// eslint-disable-next-line @typescript-eslint/no-namespace
+	namespace ReactNativePaper {
+		interface ThemeColors {
+			secondary: string
+			light: string
+			transparent: string
+		}
 	}
 }
 
-const theme: AppTheme = {
+const theme: ReactNativePaper.Theme = {
 	...DefaultTheme,
 	roundness: 2,
 	colors: {
@@ -26,7 +28,8 @@ const theme: AppTheme = {
 		primary: "#007fa9",
 		accent: "#3271a8",
 		secondary: "#3271a8",
-		light: "#edf7ff"
+		light: "#edf7ff",
+		transparent: "rgba(255, 0, 0, 0.0)"
 	}
 }
 
