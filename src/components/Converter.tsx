@@ -1,9 +1,20 @@
 import React from "react"
 import { StyleSheet, View } from "react-native"
-import { ActivityIndicator, Button, Divider, Subheading, Surface, TextInput, Title } from "react-native-paper"
+import {
+	ActivityIndicator,
+	Button,
+	Divider,
+	Subheading,
+	Surface,
+	TextInput,
+	Title,
+	IconButton
+} from "react-native-paper"
 import TextHelper from "../helpers/TextHelper"
 import TypesModal from "./TypesModal"
 import { useTheme } from "react-native-paper"
+import { CurrencyTypes } from "../constants/CurrencyTypes"
+import { COLORS } from "../constants/Colors"
 
 export default function Converter(props: ConverterProps) {
 	const { options, currencies } = props
@@ -23,6 +34,7 @@ export default function Converter(props: ConverterProps) {
 			$oid: ""
 		}
 	})
+	const [currencyType, setCurrencyType] = React.useState<CurrencyTypes>(CurrencyTypes.dolar)
 
 	//#endregion states
 
@@ -39,7 +51,7 @@ export default function Converter(props: ConverterProps) {
 
 	React.useEffect(() => {
 		if (currency) calc(currency)
-	}, [currency, selected])
+	}, [currency, selected, currencyType])
 
 	//#endregion hooks
 
@@ -66,8 +78,16 @@ export default function Converter(props: ConverterProps) {
 			const buy = value_selected.buy
 			const sell = value_selected.sell
 			const value = currency || 1
-			setBuyPrice(buy * value)
-			setSellPrice(sell * value)
+			switch (currencyType) {
+				case CurrencyTypes.dolar:
+					setBuyPrice(buy * value)
+					setSellPrice(sell * value)
+					break
+				case CurrencyTypes.peso:
+					setBuyPrice(value / buy)
+					setSellPrice(value / sell)
+					break
+			}
 		}
 	}
 
@@ -81,6 +101,10 @@ export default function Converter(props: ConverterProps) {
 		setSelected(value_type_selected || options[0])
 		setter(value_type_selected || options[0])
 		toggleModal()
+	}
+
+	const swapCurrency = () => {
+		setCurrencyType(currencyType === CurrencyTypes.dolar ? CurrencyTypes.peso : CurrencyTypes.dolar)
 	}
 
 	return (
@@ -107,18 +131,33 @@ export default function Converter(props: ConverterProps) {
 							shadowColor: colors.primary
 						}}
 					>
-						<TextInput
-							style={[styles.input, { marginHorizontal: 50 }]}
-							label="Dolar"
-							keyboardType={"numeric"}
-							value={currencyInput}
-							onChangeText={(value) => {
-								setCurrencyInput(value)
-								setCurrency(Number(value.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, "")))
+						<View
+							style={{
+								flexDirection: "row",
+								alignItems: "center"
 							}}
-							selectionColor={colors.primary}
-							underlineColor={colors.primary}
-						/>
+						>
+							<TextInput
+								style={[styles.input, { marginLeft: 20 }]}
+								label={currencyType === CurrencyTypes.dolar ? "Dolar" : "Peso"}
+								keyboardType={"numeric"}
+								value={currencyInput}
+								onChangeText={(value) => {
+									setCurrencyInput(value)
+									setCurrency(Number(value.replace(/[- #*;,.<>\{\}\[\]\\\/]/gi, "")))
+								}}
+								selectionColor={colors.primary}
+								underlineColor={colors.primary}
+							/>
+							<View style={{ flex: 1, alignItems: "center" }}>
+								<IconButton
+									size={40}
+									icon="swap-horizontal-bold"
+									color={colors.primary}
+									onPress={swapCurrency}
+								/>
+							</View>
+						</View>
 						<View style={styles.pricesRow}>
 							{isNaN(buyPrice) === false && (
 								<TextInput
@@ -140,9 +179,15 @@ export default function Converter(props: ConverterProps) {
 						<Divider />
 						<View style={styles.footer}>
 							<Title style={{ marginVertical: 15 }}>
-								<Subheading>Tipo de dolar</Subheading>
+								<Subheading>{"Tipo de dolar"}</Subheading>
 							</Title>
-							<Button mode="outlined" labelStyle={{ color: colors.accent }} color={colors.accent} style={{borderColor: colors.primary}} onPress={toggleModal}>
+							<Button
+								mode="outlined"
+								labelStyle={{ color: colors.accent }}
+								color={colors.accent}
+								style={{ borderColor: colors.primary }}
+								onPress={toggleModal}
+							>
 								{selected && TextHelper.capitalize(selected.name)}
 							</Button>
 						</View>
@@ -165,7 +210,7 @@ const styles = StyleSheet.create({
 	},
 	input: {
 		marginTop: 10,
-		backgroundColor: "transparent",
+		backgroundColor: COLORS.invisible,
 		fontSize: 20,
 		fontWeight: "bold",
 		flexGrow: 1
@@ -174,15 +219,6 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		flexWrap: "wrap",
 		alignItems: "center"
-	},
-	typeItem: {
-		width: "100%",
-		alignItems: "center"
-	},
-	typeText: {
-		fontWeight: "bold",
-		fontSize: 17,
-		alignSelf: "center"
 	},
 	footer: {
 		paddingHorizontal: 15,
