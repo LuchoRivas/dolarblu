@@ -16,4 +16,7 @@ web-build/
 
 #VS Code
 .vscode/*
+
+#Lint
 .prettierrc
+.eslintrc.json
