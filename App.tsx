@@ -4,10 +4,21 @@ import { DefaultTheme, IconButton, Provider as PaperProvider } from "react-nativ
 import Home from "./src/views/Home"
 import Calculator from "./src/views/Calculator"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { Theme } from "react-native-paper/lib/typescript/types"
 
 const Tab = createBottomTabNavigator()
 
-const theme = {
+
+// Quiza modificar el type global?
+export type AppTheme = Theme & {
+	roundness: number
+	colors: {
+		secondary: string
+		light: string
+	}
+}
+
+const theme: AppTheme = {
 	...DefaultTheme,
 	roundness: 2,
 	colors: {
@@ -28,9 +39,15 @@ export default function App() {
 					screenOptions={({ route }) => ({
 						tabBarIcon: ({ focused }) => {
 							return route.name === "Cotizaciones" ? (
-								<IconButton icon="cash-multiple" color={focused ? theme.colors.primary : theme.colors.disabled} />
+								<IconButton
+									icon="cash-multiple"
+									color={focused ? theme.colors.primary : theme.colors.disabled}
+								/>
 							) : (
-								<IconButton icon="calculator" color={focused ? theme.colors.primary : theme.colors.disabled} />
+								<IconButton
+									icon="calculator"
+									color={focused ? theme.colors.primary : theme.colors.disabled}
+								/>
 							)
 						}
 					})}
