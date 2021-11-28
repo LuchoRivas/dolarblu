@@ -4,10 +4,23 @@ import { DefaultTheme, IconButton, Provider as PaperProvider } from "react-nativ
 import Home from "./src/views/Home"
 import Calculator from "./src/views/Calculator"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { Theme } from "react-native-paper/lib/typescript/types"
 
 const Tab = createBottomTabNavigator()
 
-const theme = {
+
+declare global {
+	// eslint-disable-next-line @typescript-eslint/no-namespace
+	namespace ReactNativePaper {
+		interface ThemeColors {
+			secondary: string
+			light: string
+			transparent: string
+		}
+	}
+}
+
+const theme: ReactNativePaper.Theme = {
 	...DefaultTheme,
 	roundness: 2,
 	colors: {
@@ -15,7 +28,8 @@ const theme = {
 		primary: "#007fa9",
 		accent: "#3271a8",
 		secondary: "#3271a8",
-		light: "#edf7ff"
+		light: "#edf7ff",
+		transparent: "rgba(255, 0, 0, 0.0)"
 	}
 }
 
@@ -28,9 +42,15 @@ export default function App() {
 					screenOptions={({ route }) => ({
 						tabBarIcon: ({ focused }) => {
 							return route.name === "Cotizaciones" ? (
-								<IconButton icon="cash-multiple" color={focused ? theme.colors.primary : theme.colors.disabled} />
+								<IconButton
+									icon="cash-multiple"
+									color={focused ? theme.colors.primary : theme.colors.disabled}
+								/>
 							) : (
-								<IconButton icon="calculator" color={focused ? theme.colors.primary : theme.colors.disabled} />
+								<IconButton
+									icon="calculator"
+									color={focused ? theme.colors.primary : theme.colors.disabled}
+								/>
 							)
 						}
 					})}

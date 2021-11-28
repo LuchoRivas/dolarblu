@@ -36,7 +36,7 @@ export default function Body(props: HomeBody) {
           <ValuesCard
             type={"Solidario"}
             sell={data.solidario.sell}
-            update={DateHelper.toString(data.liqui.date.$date)}
+            update={DateHelper.toString(data.solidario.date.$date)}
           />
         </>
       )}

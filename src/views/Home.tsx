@@ -7,11 +7,17 @@ import AsyncStorage from "@react-native-community/async-storage"
 import config from "../constants/Enviorment"
 import { useTheme } from "react-native-paper"
 import AppLoading from "expo-app-loading"
+
 export default function Home() {
 	const [values, setValues] = React.useState<ValuesResponse>()
 	const [refreshing, setRefreshing] = React.useState(false)
 	const [loading, setLoading] = React.useState(true)
 	const { colors } = useTheme()
+
+	const themeStyle = {
+		backgroundColor: colors.light,
+		flex: 1
+	}
 
 	const getValues = async () => {
 		try {
@@ -50,7 +56,7 @@ export default function Home() {
 			<Header title={"Cotizaciones"} />
 			<ScrollView
 				refreshControl={<RefreshControl refreshing={refreshing} onRefresh={toggleRefresh} />}
-				style={{ backgroundColor: colors.light, flex: 1 }}
+				style={themeStyle}
 			>
 				{values && <Body data={values} />}
 			</ScrollView>
