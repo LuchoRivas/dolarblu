@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-community/async-storage"
 import config from "../constants/Enviorment"
 import { useTheme } from "react-native-paper"
 import AppLoading from "expo-app-loading"
+import { ValuesResponse } from "../typescript/Responses"
 
 export default function Home() {
 	const [values, setValues] = React.useState<ValuesResponse>()

@@ -15,9 +15,12 @@ import TypesModal from "./TypesModal"
 import { useTheme } from "react-native-paper"
 import { CurrencyTypes } from "../constants/CurrencyTypes"
 import { COLORS } from "../constants/Colors"
+import { Chart, Line, Area, HorizontalAxis, VerticalAxis } from "react-native-responsive-linechart"
+import { ConverterProps } from "../typescript/Components"
+import { TypesResponse } from "../typescript/Responses"
 
 export default function Converter(props: ConverterProps) {
-	const { options, currencies } = props
+	const { options, currencies, chart, chartConfig } = props
 	const { colors } = useTheme()
 
 	//#region states
@@ -46,6 +49,7 @@ export default function Converter(props: ConverterProps) {
 		if (currencies) {
 			setter(default_option)
 			setLoading(false)
+			console.log(chart)
 		}
 	}, [])
 
@@ -192,6 +196,25 @@ export default function Converter(props: ConverterProps) {
 							</Button>
 						</View>
 					</Surface>
+					<Chart
+						style={{ height: 200, width: 400 }}
+						data={chart}
+						padding={{ left: 40, bottom: 20, right: 20, top: 20 }}
+						xDomain={{ min: chartConfig?.minX, max: chartConfig?.maxX }}
+						yDomain={{ min: chartConfig?.minY, max: chartConfig?.maxY }}
+					>
+						<VerticalAxis tickCount={11} theme={{ labels: { formatter: (v) => v.toFixed(2) } }} />
+						<HorizontalAxis tickCount={5} />
+						<Area
+							theme={{ gradient: { from: { color: colors.accent }, to: { color: colors.primary, opacity: 0.4 } } }}
+						/>
+						<Line
+							theme={{
+								stroke: { color: colors.accent, width: 5 },
+								scatter: { default: { width: 4, height: 4, rx: 2 } }
+							}}
+						/>
+					</Chart>
 				</View>
 			)}
 		</>
