@@ -1,15 +1,15 @@
-import AsyncStorage from "@react-native-community/async-storage"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import Axios from "axios"
-import React from "react"
-import { View } from "react-native"
+import { useState, useEffect } from "react"
+import View from "react-native"
 import { useTheme } from "react-native-paper"
 import Converter from "../components/Converter"
 import Header from "../components/Header"
 import config from "../constants/Enviorment"
 
 export default function Calculator() {
-	const [values, setValues] = React.useState<ValuesResponse>()
-	const [types, setTypes] = React.useState<TypesResponse[]>()
+	const [values, setValues] = useState<ValuesResponse>()
+	const [types, setTypes] = useState<TypesResponse[]>()
 	const { colors } = useTheme()
 
 	const themeStyle = {
@@ -40,7 +40,7 @@ export default function Calculator() {
 
 	//#endregion services
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const fetch = async () => {
 			await getTypes()
 			await getFromStorage()
