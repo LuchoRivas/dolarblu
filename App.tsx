@@ -4,7 +4,6 @@ import { DefaultTheme, IconButton, Provider as PaperProvider } from "react-nativ
 import Home from "./src/views/Home"
 import Calculator from "./src/views/Calculator"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { Theme } from "react-native-paper/lib/typescript/types"
 
 const Tab = createBottomTabNavigator()
 

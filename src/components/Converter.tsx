@@ -8,11 +8,11 @@ import {
 	Surface,
 	TextInput,
 	Title,
-	IconButton
+	IconButton,
+	useTheme
 } from "react-native-paper"
 import TextHelper from "../helpers/TextHelper"
 import TypesModal from "./TypesModal"
-import { useTheme } from "react-native-paper"
 import { CurrencyTypes } from "../constants/CurrencyTypes"
 import { COLORS } from "../constants/Colors"
 
@@ -42,8 +42,8 @@ export default function Converter(props: ConverterProps) {
 
 	React.useEffect(() => {
 		const default_option = options[0]
-		setSelected(default_option)
 		if (currencies) {
+			setSelected(default_option)
 			setter(default_option)
 			setLoading(false)
 		}

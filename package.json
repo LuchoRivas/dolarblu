@@ -9,33 +9,29 @@
     "lint": "tsc --noEmit && eslint --ext .js,.jsx,.ts,.tsx ./"
   },
   "dependencies": {
-    "@react-native-community/async-storage": "~1.12.0",
+    "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.2",
     "@react-navigation/native": "^5.8.10",
     "axios": "^0.21.0",
-    "expo": "^40.0.0",
-    "expo-app-loading": "^1.2.1",
-    "expo-status-bar": "~1.0.3",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
-    "react-native-paper": "^4.4.1",
-    "react-native-screens": "~2.15.2",
-    "react-native-web": "~0.13.12",
-    "expo-updates": "~0.4.1"
+    "expo": "^43.0.0",
+    "expo-app-loading": "~1.2.1",
+    "expo-status-bar": "~1.1.0",
+    "expo-updates": "~0.10.15",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-native": "0.64.3",
+    "react-native-paper": "^4.12.2",
+    "react-native-safe-area-context": "3.3.2",
+    "react-native-screens": "~3.8.0",
+    "react-native-web": "0.17.1"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0",
-    "@types/react": "~16.9.35",
-    "@types/react-dom": "~16.9.8",
-    "@types/react-native": "~0.63.2",
-    "@typescript-eslint/eslint-plugin": "^5.4.0",
-    "@typescript-eslint/parser": "^5.4.0",
-    "eslint": "^8.3.0",
-    "eslint-plugin-react": "^7.27.1",
-    "eslint-plugin-react-native": "^3.11.0",
-    "typescript": "~4.0.0"
+    "@babel/core": "^7.12.9",
+    "@types/react": "~17.0.21",
+    "@types/react-dom": "~17.0.9",
+    "@types/react-native": "~0.64.12",
+    "typescript": "~4.3.5"
   },
   "private": true
 }
