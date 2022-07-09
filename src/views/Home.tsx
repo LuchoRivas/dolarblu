@@ -1,5 +1,4 @@
-// import React from "react"
-import * as React from "react"
+import React from "react"
 import { RefreshControl, ScrollView } from "react-native"
 import Body from "../components/Body"
 import Header from "../components/Header"
